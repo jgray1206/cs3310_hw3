@@ -12,12 +12,12 @@ public class CompleteBinaryTree implements ITree {
 	}
 	
 	@Override
-	public Integer[] findMin() {
+	public String findMin() {
 		if(tree.isEmpty()){
 			return null;
 		}
 		else{
-			return tree.get(0);
+			return "<"+tree.get(0)[0]+","+tree.get(0)[1]+">";
 		}
 	}
 
@@ -126,8 +126,8 @@ public class CompleteBinaryTree implements ITree {
 		String output = "{";
 		for(Integer[] x: tree){
 			output += "<"+x[0]+","+x[1]+">,";
+			output = output.substring(0, output.length()-1);
 		}
-		output = output.substring(0, output.length()-1);
 		output += "}";
 		return output;
 	}

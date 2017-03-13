@@ -21,4 +21,26 @@ public class Node {
 		this.data = data;
 		size = 1;
 	}
+	public boolean isLeaf() {
+		if(left==null&&right==null)
+			return true;
+		else
+			return false;
+	}
+	public void swap(Node child) {
+		int tempKey = this.key;
+		int tempData = this.data;
+		this.key = child.key;
+		this.data = child.data;
+		child.key = tempKey;
+		child.data = tempData;
+	}
+	public boolean hasEmptyChildSpace() {
+		if(left==null||right==null){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
