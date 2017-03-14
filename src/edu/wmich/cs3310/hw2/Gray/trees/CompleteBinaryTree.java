@@ -122,13 +122,13 @@ public class CompleteBinaryTree implements ITree {
 		
 	}
 
-	public String toString(){
+	public void print(){
 		String output = "{";
 		for(Integer[] x: tree){
 			output += "<"+x[0]+","+x[1]+">,";
 			output = output.substring(0, output.length()-1);
 		}
 		output += "}";
-		return output;
+		System.out.println(output);
 	}
 }
