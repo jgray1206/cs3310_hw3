@@ -19,6 +19,8 @@ public class Main {
 				
 		//Gets user input for array specifications
 		sequence = getUserInt("Enter length of test sequence: ", scnr);
+		if(sequence<2)
+			sequence = 2;
 		
 		int[] operations = new int[sequence];
 		for(int i = 0; i < sequence; i++){
@@ -26,21 +28,52 @@ public class Main {
 		}
 		
 		int key, value;
+		long[] times = new long[8];
+		long before, after;
 		boolean printed = false;
+		
 		for(int x: operations){
 			if(x<2001){
 				key = rand.nextInt(1000)+1;
 				value = rand.nextInt(15001)+5000;
+				
+				before = System.nanoTime();
 				SBT.insert(key, value);
+				after = System.nanoTime();
+				times[0] += after-before;
+				times[6] += after-before;
+				
+				before = System.nanoTime();
 				CBT.insert(key, value);
-			}
+				after = System.nanoTime();
+				times[1] += after-before;
+				times[7] += after-before;
+			} 
 			else if(x<4001){
+				before = System.nanoTime();
 				SBT.deleteMin();
+				after = System.nanoTime();
+				times[2] += after-before;
+				times[6] += after-before;
+
+				before = System.nanoTime();
 				CBT.deleteMin();
+				after = System.nanoTime();
+				times[3] += after-before;
+				times[7] += after-before;
 			}
 			else{
+				before = System.nanoTime();
 				SBT.findMin();
+				after = System.nanoTime();
+				times[4] += after-before;
+				times[6] += after-before;
+
+				before = System.nanoTime();
 				CBT.findMin();
+				after = System.nanoTime();
+				times[5] += after-before;
+				times[7] += after-before;
 			}
 			if(CBT.size()==30&&!printed){
 				key = rand.nextInt(1000)+1;
@@ -68,8 +101,20 @@ public class Main {
 		}
 		
 		if(!printed){
-			System.out.println("Sorry. The trees never hit a size of 30. \nTry again with a larger sequence (10,000).");
+			System.out.println("Sorry. The trees never hit a size of 30. \nTry again with a larger sequence (5,000 usually works).");
 		}
+		
+		System.out.printf("\nSBT Insert: %d ns\n"
+						+ "CBT Insert: %d ns\n\n"
+						+ "SBT DeleteMin: %d ns\n"
+						+ "CBT DeleteMin: %d ns\n\n"
+						+ "SBT FindMin: %d ns\n"
+						+ "CBT FindMin: %d ns\n\n"
+						+ "SBT Total Time: %d ns\n"
+						+ "CBT Total Time: %d ns\n", times[0]/(sequence-1), times[1]/(sequence-1),
+						times[2]/(sequence-1), times[3]/(sequence-1), times[4]/(sequence-1),
+						times[5]/(sequence-1), times[6], times[7]);
+	
 	}
 	
 	/**
