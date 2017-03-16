@@ -34,10 +34,9 @@ public class CompleteBinaryTree implements ITree {
 	}
 	
 	public void topHeapify(int i){
-		System.out.println(this);
 		int swap;
-		int left = i*2+1;
-		int right = i*2+2;
+		int left = (i*2)+1;
+		int right = (i*2)+2;
 		//if both children are null, heapify is done.
 		if(left>tree.size()-1&&right>tree.size()-1){
 			return;
@@ -55,8 +54,8 @@ public class CompleteBinaryTree implements ITree {
 	}
 	
 	private int getSmallerChildIndex(int i) {
-		int left = 2*i+1;
-		int right = 2*i+2;
+		int left = (2*i)+1;
+		int right = (2*i)+2;
 		Integer indexVal = tree.get(i)[0];
 		Integer leftVal;
 		Integer rightVal;
@@ -87,7 +86,7 @@ public class CompleteBinaryTree implements ITree {
 			if(leftVal.compareTo(rightVal)<=0&&indexVal.compareTo(leftVal)>0){
 				return left;
 			}
-			else if(rightVal.compareTo(leftVal)<=0&&indexVal.compareTo(leftVal)>0){
+			else if(rightVal.compareTo(leftVal)<=0&&indexVal.compareTo(rightVal)>0){
 				return right;
 			}
 			else{
@@ -123,12 +122,16 @@ public class CompleteBinaryTree implements ITree {
 	}
 
 	public void print(){
-		String output = "{";
+		String output = "CBT: {";
 		for(Integer[] x: tree){
 			output += "<"+x[0]+","+x[1]+">,";
-			output = output.substring(0, output.length()-1);
 		}
+		output = output.substring(0, output.length()-1);
 		output += "}";
 		System.out.println(output);
+	}
+	
+	public int size(){
+		return tree.size();
 	}
 }

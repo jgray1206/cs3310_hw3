@@ -142,9 +142,9 @@ public class SizeBalancedTree implements ITree {
 			System.out.println("empty");
 		}
 		else{
-			System.out.print("{");
+			System.out.print("SBT Preorder: {");
 			printPreorder(root);
-			System.out.print("},{");
+			System.out.print("}\nSBT Inorder:{");
 			printInorder(root);
 			System.out.println("}");
 		}
