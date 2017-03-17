@@ -1,10 +1,20 @@
 package edu.wmich.cs3310.hw2.Gray.trees;
 import edu.wmich.cs3310.hw2.Gray.node.*;
 
+/**
+ * This is the implementation of a size balanced binary tree.
+ * It utilizes my node class, along with following
+ * the ITree interface.
+ * Javadocs for overriden ITree methods are in ITree.
+ * @author john
+ */
 public class SizeBalancedTree implements ITree {
 	
-	Node root;
+	Node root; //holder of root node, the top of the tree
 	
+	/**
+	 * Basic constructor creates empty tree
+	 */
 	public SizeBalancedTree(){
 		root = null;
 	}
@@ -60,17 +70,23 @@ public class SizeBalancedTree implements ITree {
 		}
 	}
 
+	/**
+	 * Top heapify, utilized by deleteMin.
+	 * Uses recursion.
+	 * @param current - holds current recursive step node
+	 */
 	private void topHeapify(Node current) {
+		//if node is a leaf, heapify is done
 		if(current.isLeaf()){
 			return;
-		}
+		} // if no right, check left
 		else if(current.left!=null&&current.left.key<current.key&&current.right==null){
 			current.swap(current.left);
-		}
+		} //if no left, check right
 		else if(current.right!=null&&current.right.key<current.key&&current.left==null){
 			current.swap(current.right);
 		}
-		else if(!current.hasEmptyChildSpace()){
+		else if(!current.hasEmptyChildSpace()){ //if both children there, check both in comparison to index.
 			if(current.right.key<=current.left.key&&current.key>current.right.key){
 				current.swap(current.right);
 				topHeapify(current.right);
@@ -118,11 +134,17 @@ public class SizeBalancedTree implements ITree {
 		}
 	}
 
+	/**
+	 * Recursive bottom heapify
+	 * Utilized by insertion.
+	 * @param current recursive step holder
+	 */
 	private void bottomHeapify(Node current) {
+		//if root, bottom heapify is done
 		if(current.parent==null){
 			return;
 		}
-		else{
+		else{ //if parent is less, swap
 			if(current.key<current.parent.key){
 				int key, data;
 				key = current.key;
@@ -133,10 +155,14 @@ public class SizeBalancedTree implements ITree {
 				current.parent.data = data;	
 				bottomHeapify(current.parent);
 			}
-			return;
+			return; //else, return
 		}
 	}
 	
+	/**
+	 * Prints out the preorder and
+	 * inorder versions of the SBT
+	 */
 	public void print(){
 		if(root==null){
 			System.out.println("empty");
@@ -150,6 +176,10 @@ public class SizeBalancedTree implements ITree {
 		}
 	}
 
+	/**
+	 * prints inorder SBT
+	 * @param current starting point of print
+	 */
 	private void printInorder(Node current) {
 		if(current.left!=null){
 			printInorder(current.left);
@@ -160,6 +190,10 @@ public class SizeBalancedTree implements ITree {
 		}
 	}
 
+	/**
+	 * prints preorder SBT
+	 * @param current starting point of print
+	 */
 	private void printPreorder(Node current) {
 		System.out.print("[<"+current.key+","+current.data+">"+","+current.size+"],");
 		if(current.left!=null){

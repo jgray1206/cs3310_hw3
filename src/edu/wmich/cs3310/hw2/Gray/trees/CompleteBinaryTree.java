@@ -3,10 +3,21 @@ package edu.wmich.cs3310.hw2.Gray.trees;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This is the implementation of a complete binary tree.
+ * It utilizes my ITree interface for its basic functionality,
+ * along with Java's ArrayList, so I don't have to worry
+ * about resizing.
+ * Javadocs for overriden ITree methods are in ITree.
+ * @author john
+ */
 public class CompleteBinaryTree implements ITree {
 	
-	ArrayList<Integer[]> tree;
+	ArrayList<Integer[]> tree; 				//holds my complete binary tree
 	
+	/**
+	 * Basic constructor sets up ArrayList tree.
+	 */
 	public CompleteBinaryTree(){
 		tree = new ArrayList<Integer[]>();
 	}
@@ -33,6 +44,11 @@ public class CompleteBinaryTree implements ITree {
 		}
 	}
 	
+	/**
+	 * Utilized when deleting.
+	 * Top heapifies via recursion.
+	 * @param i - keeps track of index in array
+	 */
 	public void topHeapify(int i){
 		int swap;
 		int left = (i*2)+1;
@@ -53,6 +69,12 @@ public class CompleteBinaryTree implements ITree {
 		}
 	}
 	
+	/**
+	 * returns the index of the smallest child of 
+	 * index i. Utilized in top heapify.
+	 * @param i - parent index. checking for smallest child of this.
+	 * @return smallest child index
+	 */
 	private int getSmallerChildIndex(int i) {
 		int left = (2*i)+1;
 		int right = (2*i)+2;
@@ -60,6 +82,7 @@ public class CompleteBinaryTree implements ITree {
 		Integer leftVal;
 		Integer rightVal;
 		
+		//checks if left exists, then gets its key
 		if(left>tree.size()-1){
 			leftVal = -1;
 		}
@@ -67,6 +90,7 @@ public class CompleteBinaryTree implements ITree {
 			leftVal = tree.get(left)[0];
 		}
 		
+		//checks if right exists, then gets its key
 		if(right>tree.size()-1){
 			rightVal = -1;
 		}
@@ -74,15 +98,17 @@ public class CompleteBinaryTree implements ITree {
 			rightVal = tree.get(right)[0];
 		}
 		
+		//if no left, check right
 		if(left>tree.size()-1){
 			if(indexVal.compareTo(rightVal)>0)
 				return right;
-		}
+		} //if no right, check left
 		else if (right>tree.size()-1){
 			if(indexVal.compareTo(leftVal)>0)
 				return left;
 		}
-		else{
+		//if there is both children, check which one is smallest, and if it is less than parent, return index
+		else{ 
 			if(leftVal.compareTo(rightVal)<=0&&indexVal.compareTo(leftVal)>0){
 				return left;
 			}
@@ -93,6 +119,7 @@ public class CompleteBinaryTree implements ITree {
 				return -1;
 			}
 		}
+		//if no child is smaller, return -1
 		return -1;
 	}
 
@@ -106,12 +133,18 @@ public class CompleteBinaryTree implements ITree {
 		bottomHeapify(tree.size()-1);
 	}
 
+	/**
+	 * Heapifies from the bottom, starting at
+	 * index i. Utilized in insert method.
+	 * @param i - Recursive starting point
+	 */
 	private void bottomHeapify(int i) {
 		int parent = (i-1)/2;
 		if(i==0){
 			return;
 		}
 		else{
+			//compare i with its parent. Swap if less.
 			if(tree.get(i)[0].compareTo(tree.get(parent)[0])<0){
 				Collections.swap(tree, parent, i);
 				bottomHeapify(parent);
@@ -121,6 +154,9 @@ public class CompleteBinaryTree implements ITree {
 		
 	}
 
+	/**
+	 * Used to print out contents of the CBT
+	 */
 	public void print(){
 		String output = "CBT: {";
 		for(Integer[] x: tree){
@@ -131,6 +167,10 @@ public class CompleteBinaryTree implements ITree {
 		System.out.println(output);
 	}
 	
+	/**
+	 * Getter for size of tree
+	 * @return size of tree
+	 */
 	public int size(){
 		return tree.size();
 	}

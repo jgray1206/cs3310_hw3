@@ -5,6 +5,13 @@ import java.util.Scanner;
 
 import edu.wmich.cs3310.hw2.Gray.trees.*;
 
+/**
+ * This class deals with all user input, timing,
+ * testing, and generation for 
+ * the required binary trees.
+ * @author John
+ *
+ */
 public class Main {
 	public static void main(String[] args){
 		//Initialize objects
@@ -22,17 +29,30 @@ public class Main {
 		if(sequence<2)
 			sequence = 2;
 		
-		int[] operations = new int[sequence];
+		//creates the array that will contain the operations.
+		int[] operations;
+		try{ //try/catch to avoid weird bug that an array can't be the size of Integer.MAX
+			operations = new int[sequence];
+		}catch(Error e){
+			System.out.println("Sorry. Number was too big. Defaulting to large number that will work.");
+			operations = new int[100000000];
+			sequence = 100000000;
+		}
+		
+		//Generates random sequence
 		for(int i = 0; i < sequence; i++){
 			operations[i] = rand.nextInt(10000)+1;
 		}
 		
+		//Initialize all variables for testing/timing
 		int key, value;
 		long[] times = new long[8];
 		long before, after;
 		boolean printed = false;
 		
+		//for each operation..
 		for(int x: operations){
+			//check which operation it is, do it to both trees, time them.
 			if(x<2001){
 				key = rand.nextInt(1000)+1;
 				value = rand.nextInt(15001)+5000;
@@ -75,6 +95,8 @@ public class Main {
 				times[5] += after-before;
 				times[7] += after-before;
 			}
+			
+			//prints all information when size hits 30
 			if(CBT.size()==30&&!printed){
 				key = rand.nextInt(1000)+1;
 				value = rand.nextInt(15001)+5000;
@@ -100,10 +122,12 @@ public class Main {
 			}
 		}
 		
+		//if the array didn't hit 30, apologize.
 		if(!printed){
 			System.out.println("Sorry. The trees never hit a size of 30. \nTry again with a larger sequence (5,000 usually works).");
 		}
 		
+		//print out times of each operation + total tree
 		System.out.printf("\nSBT Insert: %d ns\n"
 						+ "CBT Insert: %d ns\n\n"
 						+ "SBT DeleteMin: %d ns\n"
