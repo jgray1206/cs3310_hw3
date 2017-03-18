@@ -139,6 +139,7 @@ public class Main {
 						times[2]/(sequence-1), times[3]/(sequence-1), times[4]/(sequence-1),
 						times[5]/(sequence-1), times[6], times[7]);
 	
+		scnr.close();
 	}
 	
 	/**
